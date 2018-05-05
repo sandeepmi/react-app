@@ -9,8 +9,7 @@ class FilterableProductTable extends Component {
       search: {
         searchText: '',
         inStockOnly: false
-      },
-      filteredProducts: this.props.products
+      }
     }
     this.handleSearchChange = this.handleSearchChange.bind(this)
   }
@@ -23,8 +22,23 @@ class FilterableProductTable extends Component {
     }))
   }
 
+  filterProducts () {
+    const products = this.props.products
+    const { searchText, inStockOnly } = this.state.search
+
+    if (!searchText && !inStockOnly) return products
+
+    return products.filter(p => {
+      if (inStockOnly && !p.stocked) return false
+      if (!searchText) return true
+
+      return (p.name.includes(searchText) || p.category.includes(searchText))
+    })
+  }
+
   render() {
-    const { search, filteredProducts } = this.state
+    const { search } = this.state
+    const filteredProducts = this.filterProducts()
 
     return (
       <div className="container">
