@@ -25,6 +25,7 @@ class FilterableProductTable extends Component {
   filterProducts () {
     const products = this.props.products
     const { searchText, inStockOnly } = this.state.search
+    const formattedText = searchText.toLowerCase()
 
     if (!searchText && !inStockOnly) return products
 
@@ -32,7 +33,10 @@ class FilterableProductTable extends Component {
       if (inStockOnly && !p.stocked) return false
       if (!searchText) return true
 
-      return (p.name.includes(searchText) || p.category.includes(searchText))
+      return (
+        p.name.toLowerCase().includes(formattedText) ||
+        p.category.toLowerCase().includes(formattedText)
+      )
     })
   }
 
