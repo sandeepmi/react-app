@@ -1,0 +1,133 @@
+@import "theme.less";
+@import "./core/modal.less";
+@import "./core/toasts.less";
+@import "./core/loading.less";
+@import "./core/forms.less";
+@import "nav.less";
+@import "auth.less";
+
+html body {
+  font-family: 'PT Sans', sans-serif;
+  background-color: @light-gray;
+  color: @black;
+}
+
+section {
+  margin: 50px 0;
+}
+
+/* Headers
+-------------------------------------------------- */
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+.h5, h5 {
+  font-size: 1.1rem;
+}
+
+/* Anchor tags
+-------------------------------------------------- */
+#app main a {
+  cursor: pointer;
+  color: lighten(@base-color, 10%);
+
+  &:hover {
+    color: @base-color;
+  }
+
+  &.icon-link {
+    padding: 10px;
+    color: @dark-gray;
+  }
+}
+
+/* Buttons
+-------------------------------------------------- */
+.btn {
+  .ss-btn
+}
+
+.btn-secondary {
+  background-color: @dark-gray;
+
+  &:hover:enabled {
+    background-color: darken(@dark-gray, 10%);
+  }
+}
+
+/* Cards
+-------------------------------------------------- */
+.card {
+  .card-body {
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.min-height {
+    min-height: 250px;
+  }
+
+  .ss-border
+}
+
+/* Lists
+-------------------------------------------------- */
+.list-group {
+  .list-group-item {
+    border: none;
+    border-bottom: solid 2px @light-gray;
+    border-radius: 0;
+  }
+
+  .ss-border
+}
+
+/* Transitions
+-------------------------------------------------- */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+/* Tabs
+-------------------------------------------------- */
+.nav-tabs {
+  background-color: @light-gray;
+  border: none;
+
+  a.nav-link {
+    background-color: @light-gray;
+    color: @black !important;
+    border: none;
+
+    &:hover {
+      font-weight: bold;
+    }
+
+    &.router-link-exact-active.router-link-active {
+      background-color: @white;
+      font-weight: normal;
+    }
+  }
+}
+
+/* Alert
+-------------------------------------------------- */
+.alert {
+  border: none;
+  border-radius: 0;
+  border-left: solid 3px @base-color;
+  margin: 1rem 0;
+
+  form & {
+    padding: .25rem .5rem;
+  }
+}

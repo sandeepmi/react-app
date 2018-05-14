@@ -1,0 +1,58 @@
+@import "../theme.less";
+
+.form-control {
+  height: 45px !important;
+  background-color: @light-gray;
+
+  &:focus {
+    box-shadow: none;
+    background-color: darken(@light-gray, 3%);
+
+    .ss-form-control-border
+  }
+
+  .form-with-label &, .form-fixed-width & {
+    width: 250px;
+    display: inline-block;
+  }
+
+  .ss-form-control-border
+}
+
+.form-control-plaintext {
+  max-width: 250px;
+  display: inline-block;
+  padding: 0;
+}
+
+label {
+  width: 100px;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
+.form-btn-group {
+  margin-top: 15px;
+
+  .form-with-label & {
+    margin-left: 103px;
+  }
+
+  button {
+    margin-right: 7px;
+  }
+}
+
+.form-group-error {
+  text-align: left;
+  color: @error;
+
+  .form-fixed-width & {
+    display: inline-block;
+  }
+}

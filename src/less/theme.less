@@ -1,0 +1,67 @@
+@base-color: #c4373e;
+@base-bg-text-color: rgba(255,255,255,.8);
+@light-gray: #f5f6f7;
+@dark-gray: #686565;
+@dark-gray-bg-text-color: #eeeeee;
+@white: #ffffff;
+@black: #555555;
+@success: #28a745;
+@error: #dc3545;
+@error-bg: #f8d7da;
+
+.ss-shadow {
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 3px -2px rgba(0,0,0,.12);
+}
+
+.ss-border {
+  border: none;
+  border-radius: 0 0 3px 3px;
+  border-top: solid 5px @base-color;
+
+  .ss-shadow
+}
+
+.ss-form-control-border {
+  border: none;
+  border-radius: 0;
+  border-left: solid 3px @base-color;
+
+  &.error {
+    background-color: @error-bg;
+  }
+}
+
+.ss-btn {
+  display: inline-block;
+  width: 120px;
+  height: 36px;
+  padding: 0px 5px;
+  text-align: center;
+  vertical-align: middle;
+  color: @base-bg-text-color !important;
+  font-size: 0.9rem;
+  line-height: 38px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: @base-color none repeat scroll 0% 0% / auto padding-box border-box;
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px;
+  box-sizing: border-box;
+  transition: all 0.3s ease-out 0s;
+  perspective-origin: 60px 18px;
+  transform-origin: 60px 18px;
+
+  &:hover:enabled {
+    background-color: darken(@base-color, 10%);
+    color: @white !important;
+  }
+
+  &:disabled {
+    cursor: default !important;
+  }
+}
