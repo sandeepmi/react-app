@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 import { isMobile } from '../helpers'
 
@@ -32,9 +32,9 @@ class Header extends Component {
       <header>
         <nav className="navbar navbar-expand-md navbar-dark">
           <div className="container">
-            <Link to='/' className="navbar-brand">
+            <NavLink to='/' exact className="navbar-brand">
               <i className="material-icons dp48 large">account_balance</i>
-            </Link>
+            </NavLink>
             <button onClick={this.toggleMobileNav} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -42,13 +42,13 @@ class Header extends Component {
             <div className={classNames('collapse', 'navbar-collapse', { show: this.state.isMobileNavExpanded })} id="navbarSupportedContent">
               <ul className="navbar-nav ml-auto" onClick={this.handleNavClick}>
                 <li className="nav-item">
-                  <Link to='/' className="nav-link">Home</Link>
+                  <NavLink to='/' className="nav-link" exact>Home</NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link to='/items' className="nav-link">Items</Link>
+                  <NavLink to='/items' className="nav-link">Items</NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link to='/login' className="nav-link">Login</Link>
+                  <NavLink to='/login' className="nav-link">Login</NavLink>
                 </li>
                 {/* <li className="nav-item dropdown nav-item-account" v-else>
                   <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,8 +57,8 @@ class Header extends Component {
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a className="dropdown-header py-0">{{displayName}}</a>
                     <div className="dropdown-divider d-none d-md-block"></div>
-                    <Link to="{ name: 'MyAccount' }" className="dropdown-item">My Account</Link>
-                    <Link to="{ name: 'Logout' }" className="dropdown-item">Logout</Link>
+                    <NavLink to="{ name: 'MyAccount' }" className="dropdown-item">My Account</NavLink>
+                    <NavLink to="{ name: 'Logout' }" className="dropdown-item">Logout</NavLink>
                   </div>
                 </li> */}
               </ul>
