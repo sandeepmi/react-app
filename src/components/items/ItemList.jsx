@@ -1,19 +1,36 @@
 import React, { Component } from 'react'
 import Item from './Item'
+import { getItems } from '../../services/itemsService'
+import { getErrorMsg } from '../../helpers'
 
 class ItemList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      items: [
-        { _id: '1', title: 'sdfas', type: 'sdfas' },
-        { _id: '2', title: 'trsgfd', type: 'jtrughf' }
-      ]
+      items: [],
+      isLoading: false,
+      message: ''
     }
   }
 
+  async showItems () {
+    try {
+      const items = await getItems()
+
+      if (items && items.length > 0) {
+        this.setState({ items })
+      }
+    } catch (err) {
+      this.setState({ message: getErrorMsg(err) })
+    }
+  }
+
+  componentDidMount () {
+    this.showItems()
+  }
+
   render () {
-    const { items } = this.state
+    const { items, message } = this.state
 
     return (
       <div className="container">
@@ -25,12 +42,13 @@ class ItemList extends Component {
         {/* <Loading v-if="isLoading" type="card" /> */}
         <div>
           <ul className="list-group">
-            {items.map(item => (
+            {items.length > 0 && items.map(item => (
               <Item item={item} key={item._id} />
             ))}
           </ul>
         </div>
         {/* <Alert :text="status" /> */}
+        <div className="alert-danger">{message}</div>
       </div>
     )
   }
