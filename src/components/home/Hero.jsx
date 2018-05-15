@@ -4,12 +4,12 @@ import HeroCard from './HeroCard'
 
 const Hero = () => {
   return (
-    <section class="mt-3">
-      <div class="row">
-        <div class="col-md">
+    <section className="mt-3">
+      <div className="row">
+        <div className="col-md">
           <HeroMain />
         </div>
-        <div class="col-md">
+        <div className="col-md">
           <HeroCard />
         </div>
       </div>

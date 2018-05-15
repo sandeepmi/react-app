@@ -4,7 +4,7 @@ import Features from './Features'
 
 const Home = () => {
   return (
-    <div class="container page-home">
+    <div className="container page-home">
       <Hero />
       <Features />
     </div>
