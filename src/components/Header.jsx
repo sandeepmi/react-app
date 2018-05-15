@@ -1,7 +1,32 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
+import { isMobile } from '../helpers'
 
 class Header extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isMobileNavExpanded: false
+    }
+    this.toggleMobileNav = this.toggleMobileNav.bind(this)
+    this.handleNavClick = this.handleNavClick.bind(this)
+  }
+
+  toggleMobileNav () {
+    this.setState(prevState => {
+      return {
+        isMobileNavExpanded: !prevState.isMobileNavExpanded
+      }
+    })
+  }
+
+  handleNavClick (e) {
+    if (isMobile() && e.target.localName === 'a') {
+      this.toggleMobileNav()
+    }
+  }
+
   render () {
     return (
       <header>
@@ -10,12 +35,12 @@ class Header extends Component {
             <Link to='/' className="navbar-brand">
               <i className="material-icons dp48 large">account_balance</i>
             </Link>
-            {/* <button @click="toggleMobileNav" className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button onClick={this.toggleMobileNav} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
-            </button> */}
+            </button>
 
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav ml-auto">
+            <div className={classNames('collapse', 'navbar-collapse', { show: this.state.isMobileNavExpanded })} id="navbarSupportedContent">
+              <ul className="navbar-nav ml-auto" onClick={this.handleNavClick}>
                 <li className="nav-item">
                   <Link to='/' className="nav-link">Home</Link>
                 </li>
