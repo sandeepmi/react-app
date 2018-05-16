@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Item from './Item'
 import { getItems } from '../../services/itemsService'
 import { delay, cancelDelayedAction, getErrorMsg } from '../../helpers'
-import { Loading } from "../core"
+import { Loading, Alert } from "../core"
 
 class ItemList extends Component {
   constructor (props) {
@@ -56,8 +56,7 @@ class ItemList extends Component {
           </ul>
         ) : null}
 
-        {/* <Alert :text="status" /> */}
-        <div className="alert-danger">{message}</div>
+        <Alert>{message}</Alert>
       </div>
     )
   }
