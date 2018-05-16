@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Item from './Item'
 import { getItems } from '../../services/itemsService'
-import { delay, cancelDelayedAction, getErrorMsg } from '../../helpers'
+import { delay, cancelDelayedAction, getErrorMsg, messages } from '../../helpers'
 import { Loading, Alert } from "../core"
 
 class ItemList extends Component {
@@ -20,8 +20,12 @@ class ItemList extends Component {
     try {
       const items = await getItems()
 
-      if (items && items.length > 0) {
-        this.setState({ items })
+      if (items) {
+        if (items.length > 0) {
+          this.setState({ items })
+        } else {
+          this.setState({ message: messages.items.noItems });
+        }
       }
     } catch (err) {
       this.setState({ message: getErrorMsg(err) })
@@ -37,6 +41,9 @@ class ItemList extends Component {
 
   render () {
     const { items, isLoading, message } = this.state
+    const itemList = items.map(item => (
+      <Item item={item} key={item._id} />
+    ))
 
     return (
       <div className="container">
@@ -48,15 +55,11 @@ class ItemList extends Component {
 
         {isLoading ? (
           <Loading type="card" />
-        ) : items.length > 0 ? (
-          <ul className="list-group">
-            {items.map(item => (
-              <Item item={item} key={item._id} />
-            ))}
-          </ul>
-        ) : null}
-
-        <Alert>{message}</Alert>
+        ) : (items && items.length > 0) ? (
+          <ul className="list-group">{itemList}</ul>
+        ) : (
+          <Alert>{message}</Alert>
+        )}
       </div>
     )
   }
