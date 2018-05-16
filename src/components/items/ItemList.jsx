@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Item from './Item'
 import { getItems } from '../../services/itemsService'
-import { getErrorMsg } from '../../helpers'
+import { delay, cancelDelayedAction, getErrorMsg } from '../../helpers'
+import { Loading } from "../core"
 
 class ItemList extends Component {
   constructor (props) {
@@ -14,6 +15,8 @@ class ItemList extends Component {
   }
 
   async showItems () {
+    const delayId = delay(() => this.setState({ isLoading: true }))
+
     try {
       const items = await getItems()
 
@@ -22,15 +25,18 @@ class ItemList extends Component {
       }
     } catch (err) {
       this.setState({ message: getErrorMsg(err) })
+    } finally {
+      cancelDelayedAction(delayId)
+      this.setState({ isLoading: false })
     }
   }
 
-  componentDidMount () {
+  componentWillMount () {
     this.showItems()
   }
 
   render () {
-    const { items, message } = this.state
+    const { items, isLoading, message } = this.state
 
     return (
       <div className="container">
@@ -39,14 +45,17 @@ class ItemList extends Component {
           {items.length > 0 && (<span className="item-count">({items.length})</span>)}
           {/* <a className="btn float-right" @click="showAddItemView()">Add Item</a> */}
         </h1>
-        {/* <Loading v-if="isLoading" type="card" /> */}
-        <div>
+
+        {isLoading ? (
+          <Loading type="card" />
+        ) : items.length > 0 ? (
           <ul className="list-group">
-            {items.length > 0 && items.map(item => (
+            {items.map(item => (
               <Item item={item} key={item._id} />
             ))}
           </ul>
-        </div>
+        ) : null}
+
         {/* <Alert :text="status" /> */}
         <div className="alert-danger">{message}</div>
       </div>
