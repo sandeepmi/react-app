@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CSSTransitionGroup } from 'react-transition-group'
 import Item from './Item'
 import { getItems } from '../../services/itemsService'
 import { delay, cancelDelayedAction, getErrorMsg, messages } from '../../helpers'
@@ -53,13 +54,15 @@ class ItemList extends Component {
           {/* <a className="btn float-right" @click="showAddItemView()">Add Item</a> */}
         </h1>
 
-        {isLoading ? (
-          <Loading type="card" />
-        ) : (items && items.length > 0) ? (
-          <ul className="list-group">{itemList}</ul>
-        ) : (
-          <Alert>{message}</Alert>
-        )}
+        <CSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={0}>
+          {isLoading ? (
+            <Loading type="card" key="loading" />
+          ) : (items && items.length > 0) ? (
+            <ul className="list-group" key="items">{itemList}</ul>
+          ) : (
+            <Alert key="alert">{message}</Alert>
+          )}
+        </CSSTransitionGroup>
       </div>
     )
   }
