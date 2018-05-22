@@ -7,9 +7,6 @@ import { isEmail } from '../../../helpers'
 class Input extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      error: ''
-    }
     this.inputRef = React.createRef()
     this.handleInputChange = this.handleInputChange.bind(this)
     this.validate = this.validate.bind(this)
@@ -29,7 +26,7 @@ class Input extends Component {
 
   validate () {
     let error = ''
-    const { value, required, email, matchValue } = this.props
+    const { name, value, required, email, matchValue } = this.props
 
     // validate required
     if (required && !value) {
@@ -46,7 +43,7 @@ class Input extends Component {
       error = 'Not a match'
     }
 
-    this.setState({ error: error })
+    this.props.onBlur(name, error)
 
     return !error
   }
@@ -58,8 +55,7 @@ class Input extends Component {
   }
 
   render () {
-    const { label, name, plainText, srOnly, email, matchValue, onChange, ...passThroughProps } = this.props
-    const { error } = this.state
+    const { label, name, error, plainText, srOnly, email, matchValue, onChange, ...passThroughProps } = this.props
     const cssClass = {
       error: !!error,
       'form-control': !plainText,

@@ -12,17 +12,38 @@ class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      formData: {
+        email: {
+          value: '',
+          error: ''
+        },
+        password: {
+          value: '',
+          error: ''
+        }
+      },
       message: '',
       isLoading: false
     }
     this.handleLogin = this.handleLogin.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleInputBlur = this.handleInputBlur.bind(this)
   }
 
   handleInputChange (name, value) {
-    this.setState({ [name]: value })
+    this.setState(prevState => {
+      const formData = {...prevState.formData}
+      formData[name].value = value
+      return { formData }
+    })
+  }
+
+  handleInputBlur (name, error) {
+    this.setState(prevState => {
+      const formData = {...prevState.formData}
+      formData[name].error = error
+      return { formData }
+    })
   }
 
   async handleLogin () {
@@ -53,7 +74,8 @@ class Login extends Component {
   }
 
   render () {
-    const { email, password, message, isLoading } = this.state
+    const { formData, message, isLoading } = this.state
+    const { email, password } = formData
 
     return (
       <div className="card login-wrapper my-5 mx-auto">
@@ -61,9 +83,11 @@ class Login extends Component {
           <h2>Login</h2>
           <Form onSubmit={this.handleLogin}>
             <Input label="Email" name="email" required email
-              value={email} onChange={this.handleInputChange} />
+              value={email.value} onChange={this.handleInputChange}
+              error={email.error} onBlur={this.handleInputBlur} />
             <Input type="password" label="Password" name="password" required
-              value={password} onChange={this.handleInputChange} />
+              value={password.value} onChange={this.handleInputChange}
+              error={password.error} onBlur={this.handleInputBlur} />
             <Alert>{message}</Alert>
             <Button type="submit" loading={isLoading}>Log In</Button>
           </Form>
