@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import { validateForm } from '../../../helpers'
 
 class Form extends Component {
+  constructor (props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
   handleSubmit (event) {
     event.preventDefault()
 
-    // const isFormValid = validateForm(this)
-    // if (!isFormValid) return
-
-    this.props.onSubmit()
+    this.props.validateForm(isValid => {
+      if (isValid) {
+        this.props.onSubmit()
+      }
+    })
   }
 
   render () {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
+      <form onSubmit={this.handleSubmit}>
         {this.props.children}
       </form>
     )
@@ -22,6 +27,7 @@ class Form extends Component {
 }
 
 Form.propTypes = {
+  validateForm: PropTypes.func,
   onSubmit: PropTypes.func
 }
 

@@ -43,9 +43,15 @@ class Input extends Component {
       error = 'Not a match'
     }
 
-    this.props.onBlur(name, error)
+    this.props.onValidate(name, error)
+  }
 
-    return !error
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.validate && nextProps.validate) this.validate()
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.validate
   }
 
   componentDidMount () {
@@ -55,7 +61,7 @@ class Input extends Component {
   }
 
   render () {
-    const { label, name, error, plainText, srOnly, email, matchValue, onChange, ...passThroughProps } = this.props
+    const { label, name, error, plainText, srOnly, required, email, matchValue, onChange, validate, onValidate, ...passThroughProps } = this.props
     const cssClass = {
       error: !!error,
       'form-control': !plainText,
@@ -90,7 +96,10 @@ Input.propTypes = {
   plainText: PropTypes.bool,
   required: PropTypes.bool,
   email: PropTypes.bool,
-  matchValue: PropTypes.string
+  matchValue: PropTypes.string,
+  error: PropTypes.string,
+  validate: PropTypes.bool,
+  onValidate: PropTypes.func
 }
 
 Input.defaultProps = {

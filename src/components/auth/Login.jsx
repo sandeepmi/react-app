@@ -23,11 +23,13 @@ class Login extends Component {
         }
       },
       message: '',
-      isLoading: false
+      isLoading: false,
+      validateForm: false
     }
     this.handleLogin = this.handleLogin.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputBlur = this.handleInputBlur.bind(this)
+    this.validateForm = this.validateForm.bind(this)
   }
 
   handleInputChange (name, value) {
@@ -46,22 +48,43 @@ class Login extends Component {
     })
   }
 
+  validateForm (callback) {
+    this.setState({ validateForm: true }, () => {
+      this.setState({ validateForm: false })
+    })
+
+    setTimeout(() => {
+      const { formData } = this.state
+
+      for (var key in formData) {
+        if (!formData.hasOwnProperty(key)) continue
+        if (formData[key].error) {
+          console.log('actual validation')
+          return callback(false)
+        }
+      }
+
+      return callback(true)
+    }, 10)
+  }
+
   async handleLogin () {
-    const { email, password } = this.state
+    const { email, password } = this.state.formData
     const { location, history } = this.props
 
     this.setState({ message: '' })
     this.setState({ isLoading: true })
 
     try {
-      const response = await login(email, password)
+      const response = await login(email.value, password.value)
 
       if (response.success && response.token) {
         setAuthToken(response.token)
         // TODO: this.$store.dispatch('user/getUserInfo')
 
         // redirect to target
-        const redirectPath = location.query.redirect || '/account'
+        const { query } = location
+        const redirectPath = (query && query.redirect) || '/account'
         history.push(redirectPath)
       } else {
         this.setState({ message: messages.login.loginFail })
@@ -74,20 +97,20 @@ class Login extends Component {
   }
 
   render () {
-    const { formData, message, isLoading } = this.state
+    const { formData, message, isLoading, validateForm } = this.state
     const { email, password } = formData
 
     return (
       <div className="card login-wrapper my-5 mx-auto">
         <div className="card-body text-center">
           <h2>Login</h2>
-          <Form onSubmit={this.handleLogin}>
+          <Form onSubmit={this.handleLogin} validateForm={this.validateForm}>
             <Input label="Email" name="email" required email
               value={email.value} onChange={this.handleInputChange}
-              error={email.error} onBlur={this.handleInputBlur} />
+              error={email.error} onValidate={this.handleInputBlur} validate={validateForm} />
             <Input type="password" label="Password" name="password" required
               value={password.value} onChange={this.handleInputChange}
-              error={password.error} onBlur={this.handleInputBlur} />
+              error={password.error} onValidate={this.handleInputBlur} validate={validateForm} />
             <Alert>{message}</Alert>
             <Button type="submit" loading={isLoading}>Log In</Button>
           </Form>
