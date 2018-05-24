@@ -10,17 +10,6 @@ export function logout (to, from, next) {
   })
 }
 
-export function requireAuth (to, from, next) {
-  if (!isLoggedIn()) {
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
-  } else {
-    next()
-  }
-}
-
 export function setAuthToken (token) {
   // remove 'JWT ' at the beginning of the token
   token = token.substring(4)

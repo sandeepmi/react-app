@@ -48,9 +48,8 @@ class Login extends Component {
         // TODO: this.$store.dispatch('user/getUserInfo')
 
         // redirect to target
-        const { query } = location
-        const redirectPath = (query && query.redirect) || '/account'
-        history.push(redirectPath)
+        const redirectTo = (location.state || {}).from || '/account'
+        history.push(redirectTo)
       } else {
         this.setState({ message: messages.login.loginFail })
       }
