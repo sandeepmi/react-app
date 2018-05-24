@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { login } from '../../services/authService'
-import { setAuthToken, getErrorMsg, messages } from '../../helpers'
+import { setAuthToken, getErrorMsg, messages, handleInputChange, handleInputValidate, validateForm } from '../../helpers'
 import { Form, Input, Button, Alert } from '../core'
 /*
   TODO: isLoggedIn from redux state
@@ -26,46 +26,11 @@ class Login extends Component {
       isLoading: false,
       validateForm: false
     }
+
+    this.handleInputChange = handleInputChange.bind(this)
+    this.handleInputValidate = handleInputValidate.bind(this)
+    this.validateForm = validateForm.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleInputBlur = this.handleInputBlur.bind(this)
-    this.validateForm = this.validateForm.bind(this)
-  }
-
-  handleInputChange (name, value) {
-    this.setState(prevState => {
-      const formData = {...prevState.formData}
-      formData[name].value = value
-      return { formData }
-    })
-  }
-
-  handleInputBlur (name, error) {
-    this.setState(prevState => {
-      const formData = {...prevState.formData}
-      formData[name].error = error
-      return { formData }
-    })
-  }
-
-  validateForm (callback) {
-    this.setState({ validateForm: true }, () => {
-      this.setState({ validateForm: false })
-    })
-
-    setTimeout(() => {
-      const { formData } = this.state
-
-      for (var key in formData) {
-        if (!formData.hasOwnProperty(key)) continue
-        if (formData[key].error) {
-          console.log('actual validation')
-          return callback(false)
-        }
-      }
-
-      return callback(true)
-    }, 10)
   }
 
   async handleLogin () {
@@ -107,10 +72,10 @@ class Login extends Component {
           <Form onSubmit={this.handleLogin} validateForm={this.validateForm}>
             <Input label="Email" name="email" required email
               value={email.value} onChange={this.handleInputChange}
-              error={email.error} onValidate={this.handleInputBlur} validate={validateForm} />
+              error={email.error} onValidate={this.handleInputValidate} validate={validateForm} />
             <Input type="password" label="Password" name="password" required
               value={password.value} onChange={this.handleInputChange}
-              error={password.error} onValidate={this.handleInputBlur} validate={validateForm} />
+              error={password.error} onValidate={this.handleInputValidate} validate={validateForm} />
             <Alert>{message}</Alert>
             <Button type="submit" loading={isLoading}>Log In</Button>
           </Form>
