@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { isMobile } from '../helpers'
+import { isMobile, isLoggedIn } from '../helpers'
 
 class Header extends Component {
   constructor (props) {
@@ -27,6 +27,22 @@ class Header extends Component {
     }
   }
 
+  AccountNav () {
+    return (
+      <li className="nav-item dropdown nav-item-account">
+        <Link to='#' className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i className="material-icons">account_circle</i>
+        </Link>
+        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a className="dropdown-header py-0">{/* {displayName} */}</a>
+          <span className="dropdown-divider d-none d-md-block"></span>
+          <NavLink to='/account' className="dropdown-item">My Account</NavLink>
+          <NavLink to='/logout' className="dropdown-item">Logout</NavLink>
+        </div>
+      </li>
+    )
+  }
+
   render () {
     return (
       <header>
@@ -47,20 +63,13 @@ class Header extends Component {
                 <li className="nav-item">
                   <NavLink to='/items' className="nav-link">Items</NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink to='/login' className="nav-link">Login</NavLink>
-                </li>
-                {/* <li className="nav-item dropdown nav-item-account" v-else>
-                  <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="material-icons">account_circle</i>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a className="dropdown-header py-0">{{displayName}}</a>
-                    <div className="dropdown-divider d-none d-md-block"></div>
-                    <NavLink to="{ name: 'MyAccount' }" className="dropdown-item">My Account</NavLink>
-                    <NavLink to="{ name: 'Logout' }" className="dropdown-item">Logout</NavLink>
-                  </div>
-                </li> */}
+                {!isLoggedIn() ? (
+                  <li className="nav-item">
+                    <NavLink to='/login' className="nav-link">Login</NavLink>
+                  </li>
+                ) : (
+                  <this.AccountNav />
+                )}
               </ul>
             </div>
           </div>

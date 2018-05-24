@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import { logout } from './helpers'
 import 'bootstrap/dist/css/bootstrap.css'
 import './less/main.css'
 import Header from './components/Header'
@@ -17,6 +18,7 @@ const App = () => (
       <Switch>
         <Route path='/' component={Home} exact />
         <Route path='/login' component={Login} exact />
+        <Route path='/logout' render={logout} exact />
         <Route path='/items' component={ItemList} exact />
         <PrivateRoute path="/account" component={Profile} />
       </Switch>

@@ -1,13 +1,14 @@
+import React from 'react'
+import { Redirect } from "react-router-dom"
+
 // TODO: import store from '../store'
 const AUTH_TOKEN_KEY = 'auth_token'
 
-export function logout (to, from, next) {
+export function logout () {
   clearAuthToken()
   // TODO: store.dispatch('user/updateUserStatus')
 
-  next({
-    path: '/login'
-  })
+  return <Redirect to='/login' />
 }
 
 export function setAuthToken (token) {
