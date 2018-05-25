@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { login } from '../../services/authService'
 import { setAuthToken, getErrorMsg, messages, handleInputChange, handleInputValidate, validateForm } from '../../helpers'
 import { Form, Input, Button, Alert } from '../core'
@@ -24,7 +24,8 @@ class Login extends Component {
       },
       message: '',
       isLoading: false,
-      validateForm: false
+      validateForm: false,
+      redirectToReferrer: false
     }
 
     this.handleInputChange = handleInputChange.bind(this)
@@ -35,7 +36,6 @@ class Login extends Component {
 
   async handleLogin () {
     const { email, password } = this.state.formData
-    const { location, history } = this.props
 
     this.setState({ message: '' })
     this.setState({ isLoading: true })
@@ -48,21 +48,23 @@ class Login extends Component {
         // TODO: this.$store.dispatch('user/getUserInfo')
 
         // redirect to target
-        const redirectTo = (location.state || {}).from || '/account'
-        history.push(redirectTo)
+        this.setState({ redirectToReferrer: true })
       } else {
-        this.setState({ message: messages.login.loginFail })
+        this.setState({ message: messages.login.loginFail, isLoading: false })
       }
     } catch (err) {
-      this.setState({ message: getErrorMsg(err) })
-    } finally {
-      this.setState({ isLoading: false })
+      this.setState({ message: getErrorMsg(err), isLoading: false })
     }
   }
 
   render () {
-    const { formData, message, isLoading, validateForm } = this.state
+    const { formData, message, isLoading, validateForm, redirectToReferrer } = this.state
     const { email, password } = formData
+
+    if (redirectToReferrer) {
+      const { from } = this.props.location.state || { from: { pathname: '/account' } }
+      return <Redirect to={from} />
+    }
 
     return (
       <div className="card login-wrapper my-5 mx-auto">
