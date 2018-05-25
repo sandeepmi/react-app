@@ -3,12 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { logout } from './helpers'
 import 'bootstrap/dist/css/bootstrap.css'
 import './less/main.css'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Home from './components/home'
-import Login from './components/auth/Login'
-import Profile from './components/account/Profile'
-import ItemList from './components/items/ItemList'
+import { Header, Footer, Home, Login, Profile, ItemList } from './components'
 import { PrivateRoute } from './components/core'
 
 const App = () => (
