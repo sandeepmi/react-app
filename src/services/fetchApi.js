@@ -1,8 +1,19 @@
+import { getAuthToken } from '../helpers'
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+const protectedApiRegex = /(user|changePassword)/
+
 export function fetchWrapper (url, options) {
-  url = 'http://smvue.herokuapp.com/api' + url
+  //TODO: url = process.env.API_BASE_URL + url
+  url = 'http://localhost:8082/api' + url
+
+  // protected api calls
+  if (protectedApiRegex.test(url)) {
+    options = options || {}
+    options.headers = options.headers || {}
+    options.headers['Authorization'] = 'bearer ' + getAuthToken()
+  }
 
   const request = options
     ? fetch(url, options)
