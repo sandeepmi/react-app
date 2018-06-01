@@ -15,7 +15,7 @@ class Profile extends Component {
   }
 
   async getProfile () {
-    const loadingId = delay(() => { this.setState({ isLoading: true }) })
+    const loadingId = delay(() => this.setState({ isLoading: true }))
 
     try {
       const profile = await getUserProfile()
@@ -34,10 +34,12 @@ class Profile extends Component {
 
   ProfileInfo ({ profile }) {
     return (
-      <div>
-        <p>First Name: {profile.firstName}</p>
-        <p>Last Name: {profile.lastName}</p>
-        <p>Email: {profile.email}</p>
+      <div className="card">
+        <div className="card-body">
+          <p>First Name: {profile.firstName}</p>
+          <p>Last Name: {profile.lastName}</p>
+          <p>Email: {profile.email}</p>
+        </div>
       </div>
     )
   }
