@@ -1,12 +1,13 @@
 import React from 'react'
 import { Redirect } from "react-router-dom"
+import store from '../store'
+import { updateUserStatus } from '../actions'
 
-// TODO: import store from '../store'
 const AUTH_TOKEN_KEY = 'auth_token'
 
 export function logout () {
   clearAuthToken()
-  // TODO: store.dispatch('user/updateUserStatus')
+  store.dispatch(updateUserStatus(false))
 
   return <Redirect to='/login' />
 }

@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { login } from '../../services/authService'
 import { setAuthToken, getErrorMsg, messages, handleInputChange, handleInputValidate, validateForm } from '../../helpers'
 import { Form, Input, Button, Alert } from '../core'
-/*
-  TODO: isLoggedIn from redux state
-  TODO: watch isLoggedIn to redirect to account page if logged in
-*/
+import { getUserInfo } from '../../actions'
 
 class Login extends Component {
   constructor (props) {
@@ -45,7 +43,7 @@ class Login extends Component {
 
       if (response.success && response.token) {
         setAuthToken(response.token)
-        // TODO: this.$store.dispatch('user/getUserInfo')
+        this.props.onUserLogin()
 
         // redirect to target
         this.setState({ redirectToReferrer: true })
@@ -53,6 +51,7 @@ class Login extends Component {
         this.setState({ message: messages.login.loginFail, isLoading: false })
       }
     } catch (err) {
+      console.log('err :', err)
       this.setState({ message: getErrorMsg(err), isLoading: false })
     }
   }
@@ -60,9 +59,10 @@ class Login extends Component {
   render () {
     const { formData, message, isLoading, validateForm, redirectToReferrer } = this.state
     const { email, password } = formData
+    const { isLoggedIn, location } = this.props
 
-    if (redirectToReferrer) {
-      const { from } = this.props.location.state || { from: { pathname: '/account' } }
+    if (redirectToReferrer || isLoggedIn) {
+      const { from } = location.state || { from: { pathname: '/account' } }
       return <Redirect to={from} />
     }
 
@@ -91,4 +91,12 @@ class Login extends Component {
   }
 }
 
-export default Login
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn
+})
+
+const mapActionsToProps = {
+  onUserLogin: getUserInfo
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Login)

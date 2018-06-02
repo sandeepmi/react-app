@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { isMobile, isLoggedIn } from '../helpers'
+import { isMobile } from '../helpers'
 
 class Header extends Component {
   constructor (props) {
@@ -27,14 +28,14 @@ class Header extends Component {
     }
   }
 
-  AccountNav () {
+  AccountNav ({ userName }) {
     return (
       <li className="nav-item dropdown nav-item-account">
         <Link to='#' className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i className="material-icons">account_circle</i>
         </Link>
         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a className="dropdown-header py-0">{/* {displayName} */}</a>
+          <a className="dropdown-header py-0">{userName}</a>
           <span className="dropdown-divider d-none d-md-block"></span>
           <NavLink to='/account' className="dropdown-item">My Account</NavLink>
           <NavLink to='/logout' className="dropdown-item">Logout</NavLink>
@@ -63,12 +64,12 @@ class Header extends Component {
                 <li className="nav-item">
                   <NavLink to='/items' className="nav-link">Items</NavLink>
                 </li>
-                {!isLoggedIn() ? (
+                {!this.props.isLoggedIn ? (
                   <li className="nav-item">
                     <NavLink to='/login' className="nav-link">Login</NavLink>
                   </li>
                 ) : (
-                  <this.AccountNav />
+                  <this.AccountNav userName={this.props.userName} />
                 )}
               </ul>
             </div>
@@ -79,4 +80,9 @@ class Header extends Component {
   }
 }
 
-export default Header
+const mapStateToProps = state => ({
+  userName: state.user.name,
+  isLoggedIn: state.user.isLoggedIn
+})
+
+export default connect(mapStateToProps)(Header)
