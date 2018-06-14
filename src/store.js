@@ -7,16 +7,11 @@ const allReducers = combineReducers({
   items: itemsReducer
 })
 
-const initialState = {
-  user: {},
-  items: []
-}
-
 const allEnhancers = compose(
   applyMiddleware(thunk),
   window.devToolsExtension && window.devToolsExtension()
 )
 
-const store = createStore(allReducers, initialState, allEnhancers)
+const store = createStore(allReducers, {}, allEnhancers)
 
 export default store

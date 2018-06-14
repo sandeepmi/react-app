@@ -7,18 +7,14 @@ export const UPDATE_USER_STATUS = 'user:updateStatus'
 export function updateUserName (userName) {
   return {
     type: UPDATE_USER_NAME,
-    payload: {
-      userName
-    }
+    payload: userName
   }
 }
 
 export function updateUserStatus (isLoggedIn) {
   return {
     type: UPDATE_USER_STATUS,
-    payload: {
-      isLoggedIn
-    }
+    payload: isLoggedIn
   }
 }
 
