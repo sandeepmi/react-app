@@ -1,47 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { CSSTransitionGroup } from 'react-transition-group'
 import Item from './Item'
-import { getItems } from '../../services/itemsService'
-import { delay, cancelDelayedAction, getErrorMsg, messages } from '../../helpers'
-import { Loading, Alert } from "../core"
+import { Loading, Alert } from '../core'
+import { getItemsRequest } from '../../actions'
 
 class ItemList extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      items: [],
-      isLoading: false,
-      message: ''
-    }
-  }
-
-  async showItems () {
-    const delayId = delay(() => this.setState({ isLoading: true }))
-
-    try {
-      const items = await getItems()
-
-      if (items) {
-        if (items.length > 0) {
-          this.setState({ items })
-        } else {
-          this.setState({ message: messages.items.noItems });
-        }
-      }
-    } catch (err) {
-      this.setState({ message: getErrorMsg(err) })
-    } finally {
-      cancelDelayedAction(delayId)
-      this.setState({ isLoading: false })
-    }
-  }
-
   componentWillMount () {
-    this.showItems()
+    this.props.getItems()
   }
 
   render () {
-    const { items, isLoading, message } = this.state
+    const { items, isLoading, message } = this.props
     const itemList = items.map(item => (
       <Item item={item} key={item._id} />
     ))
@@ -68,4 +38,14 @@ class ItemList extends Component {
   }
 }
 
-export default ItemList
+const mapStateToProps = state => ({
+  items: state.items.list,
+  isLoading: state.items.isLoading,
+  message: state.items.message
+})
+
+const mapActionsToProps = {
+  getItems: getItemsRequest
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ItemList)
