@@ -21,7 +21,7 @@ class Input extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
 
-    this.props.onChange(name, value)
+    this.props.onChange({name, value})
   }
 
   validate () {
@@ -43,7 +43,7 @@ class Input extends Component {
       error = 'Not a match'
     }
 
-    this.props.onValidate(name, error)
+    this.props.onValidate({name, error})
   }
 
   componentWillReceiveProps(nextProps) {

@@ -39,3 +39,19 @@ export function validateForm (callback) {
     return callback(true)
   }, 10)
 }
+
+export function isFormValid (formData) {
+  if (!formData) return false
+
+  for (var key in formData) {
+    if (!formData.hasOwnProperty(key)) continue
+
+    if (formData[key].error) {
+      console.log('validation failed')
+      return false
+    }
+  }
+
+  console.log('validation success')
+  return true
+}

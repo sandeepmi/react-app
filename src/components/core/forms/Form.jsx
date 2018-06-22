@@ -9,12 +9,17 @@ class Form extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
+    const { validateForm, onSubmit } = this.props
 
-    this.props.validateForm(isValid => {
-      if (isValid) {
-        this.props.onSubmit()
-      }
-    })
+    if (validateForm) {
+      validateForm(isValid => {
+        if (isValid) {
+          onSubmit()
+        }
+      })
+    } else {
+      onSubmit()
+    }
   }
 
   render () {

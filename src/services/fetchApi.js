@@ -6,7 +6,7 @@ const protectedApiRegex = /(user|changePassword)/
 
 export function fetchWrapper (url, options) {
   //TODO: url = process.env.API_BASE_URL + url
-  url = 'http://localhost:8082/api' + url
+  url = 'http://smvue.herokuapp.com/api' + url
 
   // protected api calls
   if (protectedApiRegex.test(url)) {
